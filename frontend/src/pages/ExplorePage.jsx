@@ -138,7 +138,7 @@ function ProcedureCard({ proc, onSelect }) {
   return (
     <div
       onClick={() => onSelect(proc)}
-      className="group cursor-pointer p-5 rounded-2xl bg-white border border-purple-100 shadow-sm hover:shadow-xl hover:shadow-purple-100 hover:border-purple-300 hover:-translate-y-1 transition-all duration-300"
+      className="group relative cursor-pointer p-5 rounded-2xl bg-white border border-purple-100 shadow-sm hover:shadow-xl hover:shadow-purple-100 hover:border-purple-300 hover:-translate-y-1 hover:scale-105 hover:z-20 transition-all duration-300"
     >
       <div className="flex items-start justify-between mb-3">
         <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform notranslate leading-none">

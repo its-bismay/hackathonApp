@@ -128,7 +128,7 @@ const pricingPlans = [
 /* ─── Feature Card ──────────────────────────────────────────── */
 function FeatureCard({ f }) {
   return (
-    <div className={`p-6 rounded-2xl border ${f.bg} ${f.border} hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group`}>
+    <div className={`relative p-6 rounded-2xl border ${f.bg} ${f.border} hover:shadow-xl hover:-translate-y-1 hover:scale-105 hover:z-20 transition-all duration-300 group`}>
       <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${f.color} flex items-center justify-center text-2xl mb-4 shadow-md group-hover:scale-110 transition-transform notranslate leading-none`}>
         {f.icon}
       </div>

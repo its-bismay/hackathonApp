@@ -1,4 +1,5 @@
 import express from "express"
+import cors from "cors"
 import "dotenv/config"
 import { ENV } from "./lib/env.js";
 import { connectDB } from "./lib/db.js";
@@ -10,6 +11,8 @@ import flowRoutes from "./routes/flow.js";
 
 const app = express();
 
+// Allow requests from the frontend dev server
+app.use(cors());
 
 // Must be BEFORE express.json() — once raw reads the body, json will skip it
 app.use("/api/webhooks/clerk", express.raw({ type: "application/json" }));
@@ -24,11 +27,11 @@ app.use("/api/documents", documentRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/flow", flowRoutes);
 
-app.get("/", (_req,res) => {
+app.get("/", (_req, res) => {
     res.send("app is up and running")
 })
 
-if ( "development" === ENV?.node_env) {
+if ("development" === ENV?.node_env) {
     const activePort = ENV.port || 5000;
     app.listen(activePort, () => {
         console.log(`server is running at: http://localhost:${activePort}`)
