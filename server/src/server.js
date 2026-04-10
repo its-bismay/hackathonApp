@@ -8,16 +8,15 @@ import webhookRoutes from "./routes/webhook.js";
 const app = express();
 
 
+// Must be BEFORE express.json() — once raw reads the body, json will skip it
 app.use("/api/webhooks/clerk", express.raw({ type: "application/json" }));
+
+app.use(express.json());
+connectDB();
 
 app.use("/api/webhooks", webhookRoutes);
 
-app.use(express.json())
-connectDB()
-
 app.use("/api/inngest", inngestHandler);
-
-app.use("/api/webhooks",webhookRoutes);
 
 app.get("/", (_req,res) => {
     res.send("app is up and running")
@@ -25,7 +24,6 @@ app.get("/", (_req,res) => {
 
 if ( "development" === ENV?.node_env) {
     const activePort = ENV.port || 5000;
-    await initDB();
     app.listen(activePort, () => {
         console.log(`server is running at: http://localhost:${activePort}`)
     })

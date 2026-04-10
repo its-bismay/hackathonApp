@@ -16,6 +16,7 @@ router.post("/clerk", async (req, res) => {
   try {
     evt = wh.verify(payload, headers);
   } catch (err) {
+    console.error("[Webhook] Svix verification failed:", err.message);
     return res.status(400).send("Invalid webhook");
   }
 
