@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/clerk-react";
 
 const languages = [
   { code: 'en', label: 'EN' },
@@ -17,6 +18,9 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+
+  const { isSignedIn } = useUser();
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [langIndex, setLangIndex] = useState(0);
@@ -99,20 +103,34 @@ export default function Navbar() {
           </div>
 
           {/* RIGHT — Auth Buttons (desktop) */}
-          <div className="hidden md:flex items-center gap-3">
-            <Link
-              to="/login"
-              className="px-4 py-2 text-sm font-medium text-purple-600 hover:text-purple-700 hover:bg-purple-50 rounded-lg transition-all duration-200"
-            >
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              className="px-5 py-2 text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-violet-600 rounded-xl hover:shadow-lg hover:shadow-purple-200 hover:scale-105 transition-all duration-200"
-            >
-              Register
-            </Link>
-          </div>
+<div className="hidden md:flex items-center gap-3">
+  {!isSignedIn ? (
+    <>
+      <SignInButton mode="modal">
+        <button className="px-4 py-2 text-sm font-medium text-purple-600 hover:text-purple-700 hover:bg-purple-50 rounded-lg transition-all duration-200">
+          Login
+        </button>
+      </SignInButton>
+
+      <SignUpButton mode="modal">
+        <button className="px-5 py-2 text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-violet-600 rounded-xl hover:shadow-lg hover:shadow-purple-200 hover:scale-105 transition-all duration-200">
+          Register
+        </button>
+      </SignUpButton>
+    </>
+  ) : (
+    <>
+      <Link
+        to="/dashboard"
+        className="px-4 py-2 text-sm font-medium text-purple-600 hover:bg-purple-50 rounded-lg"
+      >
+        Dashboard
+      </Link>
+
+      <UserButton afterSignOutUrl="/" />
+    </>
+  )}
+</div>
 
           {/* MOBILE — Hamburger */}
           <button
@@ -148,14 +166,35 @@ export default function Navbar() {
           >
             🌐 Language: {languages[langIndex]?.label}
           </button>
-          <div className="pt-2 border-t border-purple-100 flex gap-3">
-            <Link to="/login" onClick={() => setMenuOpen(false)} className="flex-1 text-center px-4 py-2.5 rounded-lg text-sm font-medium border border-purple-200 text-purple-600 hover:bg-purple-50 transition">
-              Login
-            </Link>
-            <Link to="/signup" onClick={() => setMenuOpen(false)} className="flex-1 text-center px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-violet-600 hover:shadow-md transition">
-              Register
-            </Link>
-          </div>
+<div className="pt-2 border-t border-purple-100 flex gap-3">
+  {!isSignedIn ? (
+    <>
+      <SignInButton mode="modal">
+        <button className="flex-1 text-center px-4 py-2.5 rounded-lg text-sm font-medium border border-purple-200 text-purple-600 hover:bg-purple-50 transition">
+          Login
+        </button>
+      </SignInButton>
+
+      <SignUpButton mode="modal">
+        <button className="flex-1 text-center px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-violet-600 hover:shadow-md transition">
+          Register
+        </button>
+      </SignUpButton>
+    </>
+  ) : (
+    <>
+      <Link
+        to="/dashboard"
+        onClick={() => setMenuOpen(false)}
+        className="flex-1 text-center px-4 py-2.5 rounded-lg text-sm font-medium text-purple-600 hover:bg-purple-50 transition"
+      >
+        Dashboard
+      </Link>
+
+      <UserButton afterSignOutUrl="/" />
+    </>
+  )}
+</div>
         </div>
       </div>
     </nav>
