@@ -105,7 +105,7 @@ function StatCard({ icon, label, value, suffix, animate }) {
   return (
     <div className="flex flex-col items-center p-6 rounded-2xl bg-white shadow-lg shadow-purple-100 border border-purple-100 hover:shadow-xl hover:shadow-purple-200 hover:-translate-y-1 transition-all duration-300">
       <span className="text-4xl mb-2">{icon}</span>
-      <span className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-violet-500">
+      <span className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-violet-500 notranslate">
         {count.toLocaleString()}{suffix}
       </span>
       <span className="text-sm text-slate-500 mt-1 font-medium">{label}</span>

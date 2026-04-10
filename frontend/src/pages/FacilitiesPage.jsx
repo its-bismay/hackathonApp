@@ -255,7 +255,7 @@ export default function FacilitiesPage() {
                   </div>
                 )}
                 <h3 className={`font-extrabold text-lg mb-1 ${plan.highlight ? 'text-white' : 'text-slate-800'}`}>{plan.name}</h3>
-                <div className="flex items-end gap-1 mb-1">
+                <div className="flex items-end gap-1 mb-1 notranslate">
                   <span className={`text-4xl font-black ${plan.highlight ? 'text-white' : 'text-slate-800'}`}>{plan.price}</span>
                   <span className={`text-sm mb-1 ${plan.highlight ? 'text-purple-200' : 'text-slate-400'}`}>/{plan.period}</span>
                 </div>

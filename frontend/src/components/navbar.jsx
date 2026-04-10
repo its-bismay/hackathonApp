@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const languages = [
-  { code: 'en', label: 'EN' },
-  { code: 'hi', label: 'हि' },
-  { code: 'bn', label: 'বাং' },
-  { code: 'ta', label: 'தமி' },
-  { code: 'te', label: 'తె' },
-  { code: 'kn', label: 'ಕ' },
+  { code: 'en', label: 'English' },
+  { code: 'hi', label: 'हिंदी' },
+  { code: 'bn', label: 'বাংলা' },
+  { code: 'ta', label: 'தமிழ்' },
+  { code: 'te', label: 'తెలుగు' },
+  { code: 'kn', label: 'ಕನ್ನಡ' },
 ];
 
 const navLinks = [
@@ -20,6 +20,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [langIndex, setLangIndex] = useState(0);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -32,13 +34,24 @@ export default function Navbar() {
       const idx = languages.findIndex(l => l.code === match[1]);
       if (idx !== -1) setLangIndex(idx);
     }
+
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setLangMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
     
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
-  const cycleLang = () => {
-    const nextIndex = (langIndex + 1) % languages.length;
-    const langCode = languages[nextIndex].code;
+  const selectLanguage = (idx) => {
+    setLangIndex(idx);
+    setLangMenuOpen(false);
+    const langCode = languages[idx].code;
     
     // Set google translate cookie for both root paths
     if (langCode === 'en') {
@@ -69,7 +82,7 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* CENTER — Nav Links + Language Toggle (desktop) */}
+          {/* CENTER — Nav Links (desktop) */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
@@ -84,22 +97,10 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-
-            {/* Language Toggle */}
-            <button
-              onClick={cycleLang}
-              title="Switch Language"
-              className="ml-2 px-3 py-1.5 rounded-lg text-xs font-semibold border border-purple-200 text-purple-600 bg-purple-50 hover:bg-purple-100 hover:border-purple-300 transition-all duration-200 flex items-center gap-1.5"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
-              </svg>
-              {languages[langIndex]?.label}
-            </button>
           </div>
 
-          {/* RIGHT — Auth Buttons (desktop) */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* RIGHT — Auth Buttons & Language (desktop) */}
+          <div className="hidden md:flex items-center gap-4">
             <Link
               to="/login"
               className="px-4 py-2 text-sm font-medium text-purple-600 hover:text-purple-700 hover:bg-purple-50 rounded-lg transition-all duration-200"
@@ -112,6 +113,40 @@ export default function Navbar() {
             >
               Register
             </Link>
+
+            {/* Language Dropdown */}
+            <div className="relative notranslate" ref={dropdownRef}>
+              <button
+                onClick={() => setLangMenuOpen(!langMenuOpen)}
+                title="Switch Language"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold border border-purple-200 text-purple-700 bg-purple-50 hover:bg-purple-100 hover:border-purple-300 transition-all duration-200"
+              >
+                <svg className="w-4 h-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                </svg>
+                {languages[langIndex]?.label}
+                <svg className={`w-3 h-3 text-purple-500 transition-transform ${langMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              {/* Dropdown Menu */}
+              {langMenuOpen && (
+                <div className="absolute right-0 top-full mt-2 w-36 bg-white border border-purple-100 rounded-xl shadow-xl overflow-hidden flex flex-col z-50">
+                  {languages.map((lang, idx) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => selectLanguage(idx)}
+                      className={`text-left px-4 py-2.5 text-sm font-medium transition-colors ${
+                        langIndex === idx ? 'bg-purple-100 text-purple-700' : 'text-slate-600 hover:bg-purple-50 hover:text-purple-600'
+                      }`}
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* MOBILE — Hamburger */}
@@ -130,7 +165,7 @@ export default function Navbar() {
       </div>
 
       {/* MOBILE — Dropdown Menu */}
-      <div className={`md:hidden overflow-hidden transition-all duration-300 ${menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+      <div className={`md:hidden overflow-hidden transition-all duration-300 ${menuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="bg-white/95 backdrop-blur-md border-t border-purple-100 px-4 py-4 space-y-2">
           {navLinks.map((link) => (
             <Link
@@ -142,13 +177,27 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <button
-            onClick={cycleLang}
-            className="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium text-purple-600 hover:bg-purple-50 transition flex items-center gap-2"
-          >
-            🌐 Language: {languages[langIndex]?.label}
-          </button>
-          <div className="pt-2 border-t border-purple-100 flex gap-3">
+          
+          <div className="pt-2 border-t border-purple-100 notranslate">
+            <p className="px-4 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Select Language</p>
+            <div className="grid grid-cols-2 gap-2 mt-1">
+              {languages.map((lang, idx) => (
+                <button
+                  key={lang.code}
+                  onClick={() => { selectLanguage(idx); setMenuOpen(false); }}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium border transition text-center ${
+                    langIndex === idx 
+                      ? 'bg-purple-100 border-purple-200 text-purple-700' 
+                      : 'bg-white border-slate-200 text-slate-600 hover:bg-purple-50 hover:border-purple-200'
+                  }`}
+                >
+                  {lang.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="pt-4 mt-2 border-t border-purple-100 flex gap-3">
             <Link to="/login" onClick={() => setMenuOpen(false)} className="flex-1 text-center px-4 py-2.5 rounded-lg text-sm font-medium border border-purple-200 text-purple-600 hover:bg-purple-50 transition">
               Login
             </Link>
@@ -161,3 +210,4 @@ export default function Navbar() {
     </nav>
   );
 }
+

@@ -109,8 +109,8 @@ export default function AboutUsPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           {stats.map((s) => (
             <div key={s.label} className="text-center p-4 rounded-2xl bg-white shadow-md border border-purple-100 hover:shadow-lg hover:-translate-y-1 transition-all">
-              <div className="text-3xl mb-1">{s.icon}</div>
-              <div className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-violet-500">{s.value}</div>
+              <div className="text-3xl mb-1"><span className="notranslate leading-none">{s.icon}</span></div>
+              <div className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-violet-500 notranslate">{s.value}</div>
               <div className="text-xs text-slate-400 mt-0.5 font-medium">{s.label}</div>
             </div>
           ))}
@@ -127,14 +127,14 @@ export default function AboutUsPage() {
       >
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
           <div className="p-8 rounded-3xl bg-gradient-to-br from-purple-600 to-violet-700 text-white shadow-xl shadow-purple-200">
-            <div className="text-4xl mb-4">🎯</div>
+            <div className="text-4xl mb-4"><span className="notranslate leading-none">🎯</span></div>
             <h2 className="text-2xl font-extrabold mb-3">Our Mission</h2>
             <p className="text-purple-100 leading-relaxed">
               To make every government procedure understandable to every citizen — regardless of their language, education level, or prior knowledge of bureaucratic systems. We remove the gatekeepers between people and the services they are entitled to.
             </p>
           </div>
           <div className="p-8 rounded-3xl bg-white border border-purple-100 shadow-xl shadow-purple-50">
-            <div className="text-4xl mb-4">🌟</div>
+            <div className="text-4xl mb-4"><span className="notranslate leading-none">🌟</span></div>
             <h2 className="text-2xl font-extrabold text-slate-800 mb-3">Our Vision</h2>
             <p className="text-slate-500 leading-relaxed">
               An India where no citizen is penalized, fined, or denied a service simply because they couldn't decode bureaucratic language. A future where digital public services are truly accessible from the first point of contact — not just for the few, but for all 1.4 billion.
@@ -162,8 +162,8 @@ export default function AboutUsPage() {
               { icon: '⏱️', stat: '14 hours', label: 'average time lost per government process due to wrong office visits and missing documents', source: 'NASSCOM Report 2023' },
             ].map((item) => (
               <div key={item.stat} className="p-6 rounded-2xl bg-white border border-red-100 shadow-sm text-center">
-                <div className="text-4xl mb-3">{item.icon}</div>
-                <div className="text-4xl font-black text-red-500 mb-2">{item.stat}</div>
+                <div className="text-4xl mb-3"><span className="notranslate leading-none">{item.icon}</span></div>
+                <div className="text-4xl font-black text-red-500 mb-2 notranslate">{item.stat}</div>
                 <p className="text-slate-600 text-sm leading-relaxed mb-3">{item.label}</p>
                 <p className="text-slate-400 text-xs italic">{item.source}</p>
               </div>
@@ -188,7 +188,7 @@ export default function AboutUsPage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {values.map((v) => (
               <div key={v.title} className="p-6 rounded-2xl bg-white border border-purple-100 shadow-sm hover:shadow-lg hover:border-purple-200 hover:-translate-y-1 transition-all duration-300 group">
-                <div className="text-3xl mb-3 group-hover:scale-110 transition-transform inline-block">{v.icon}</div>
+                <div className="text-3xl mb-3 group-hover:scale-110 transition-transform inline-block"><span className="notranslate leading-none">{v.icon}</span></div>
                 <h3 className="font-bold text-slate-800 mb-2">{v.title}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">{v.desc}</p>
               </div>
@@ -278,7 +278,7 @@ export default function AboutUsPage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             {partners.map((p) => (
               <div key={p.name} className="p-4 rounded-2xl bg-white border border-purple-100 shadow-sm text-center hover:shadow-md hover:border-purple-200 transition group">
-                <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">{p.logo}</div>
+                <div className="text-3xl mb-2 group-hover:scale-110 transition-transform"><span className="notranslate leading-none">{p.logo}</span></div>
                 <p className="text-xs font-bold text-slate-700">{p.name}</p>
                 <p className="text-xs text-slate-400 mt-0.5">{p.role}</p>
               </div>
@@ -307,7 +307,7 @@ export default function AboutUsPage() {
               { icon: '🏢', label: 'Office', value: 'Bengaluru, Karnataka, India' },
             ].map((c) => (
               <div key={c.label} className="p-5 rounded-2xl bg-white border border-purple-100 shadow-sm">
-                <div className="text-2xl mb-2">{c.icon}</div>
+                <div className="text-2xl mb-2"><span className="notranslate leading-none">{c.icon}</span></div>
                 <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">{c.label}</p>
                 <p className="text-sm font-medium text-slate-700">{c.value}</p>
               </div>
